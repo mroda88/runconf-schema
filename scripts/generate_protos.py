@@ -27,7 +27,7 @@ log_levels = {
     "DEBUG": logging.DEBUG,
     "NOTSET": logging.NOTSET,
 }
-log = logging.getLogger("druncschema-generate-protos")
+log = logging.getLogger("runconf-schema-generate-protos")
 try:
     width = os.get_terminal_size()[0]
 except OSError:
@@ -60,7 +60,7 @@ def in_dev_mode():
 
 def generate_protos(
     source_path: Path,
-    druncschema_root: Path,
+    runconf-schema_root: Path,
     proto_files: list[Path],
     output_dir: Path,
     subdir: Path,
@@ -73,7 +73,7 @@ def generate_protos(
         try:
             cmd = " ".join(
                 [
-                    f"source {source_path}; cd {druncschema_root}; "
+                    f"source {source_path}; cd {runconf-schema_root}; "
                     "python -m grpc_tools.protoc",
                     "-I'./schema'",
                     f"--python_out={output_dir!s}",
@@ -97,7 +97,7 @@ def generate_protos(
             log.error(e.stderr)
         output_files = [
             output_dir
-            / Path("druncschema")
+            / Path("runconf-schema")
             / subdir
             / Path(Path(proto_file.name).stem + extension)
             for extension in compiled_extensions
@@ -125,7 +125,7 @@ def clear_previous_compiled_schema(output_dir: Path, output_files: list[Path]) -
 
 def call_generate_protos(
     source_path: Path,
-    druncschema_root: Path,
+    runconf-schema_root: Path,
     output_dir: Path,
     subdir: Path,
     clean: bool,
@@ -137,23 +137,23 @@ def call_generate_protos(
     Clean existing compiled buffers.
     Call the compiling function.
     """
-    proto_relative_path = Path("schema/druncschema")
+    proto_relative_path = Path("schema/runconf-schema")
     proto_files = [
         proto_relative_path / subdir / Path(f.name)
-        for f in (druncschema_root / proto_relative_path / subdir).glob("*.proto")
+        for f in (runconf-schema_root / proto_relative_path / subdir).glob("*.proto")
     ]
     if not proto_files:
         return
     if clean:
         clear_previous_compiled_schema(
-            output_dir / Path("druncschema") / subdir, proto_files
+            output_dir / Path("runconf-schema") / subdir, proto_files
         )
         if get_files(output_dir):
             e = Exception("Not all files removed, exiting")
             log.error(get_files(output_dir))
             log.exception(e)
     if not do_not_compile:
-        generate_protos(source_path, druncschema_root, proto_files, output_dir, subdir)
+        generate_protos(source_path, runconf-schema_root, proto_files, output_dir, subdir)
     return
 
 
@@ -211,7 +211,7 @@ def main(
     if not in_dev_mode():
         e = Exception(
             "This command is only available in developer mode."
-            "See the druncschema wiki for further clarification."
+            "See the runconf-schema wiki for further clarification."
         )
         log.exception(e)
 
@@ -221,24 +221,24 @@ def main(
         )
         log.exception(e)
 
-    druncschema_root = Path(f"{os.environ['DBT_AREA_ROOT']}/sourcecode/druncschema")
-    log.debug(f"Found druncschema directory at {druncschema_root}")
+    runconf-schema_root = Path(f"{os.environ['DBT_AREA_ROOT']}/sourcecode/runconf-schema")
+    log.debug(f"Found runconf-schema directory at {runconf-schema_root}")
 
-    output_dir = druncschema_root / "src/"
+    output_dir = runconf-schema_root / "src/"
     log.debug(f"Set output directory as {output_dir}")
 
-    source_path = druncschema_root.parents[1] / "env.sh"
+    source_path = runconf-schema_root.parents[1] / "env.sh"
     log.debug(f"Set source path to {source_path=}")
 
     subdir = Path()
     call_generate_protos(
-        source_path, druncschema_root, output_dir, subdir, clean, do_not_compile
+        source_path, runconf-schema_root, output_dir, subdir, clean, do_not_compile
     )
 
-    subdirs = get_subdirs(druncschema_root / Path("schema/druncschema"))
+    subdirs = get_subdirs(runconf-schema_root / Path("schema/runconf-schema"))
     for subdir in subdirs:
         call_generate_protos(
-            source_path, druncschema_root, output_dir, subdir, clean, do_not_compile
+            source_path, runconf-schema_root, output_dir, subdir, clean, do_not_compile
         )
 
 
