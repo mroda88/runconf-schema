@@ -1,0 +1,59 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools >= 61.0"]
+
+[project]
+authors = [
+  {name = "Pawel Plesniak", email = "pawel.plesniak15@imperial.ac.uk"},
+  {name = "James Turner", email = "james.turner@imperial.ac.uk"},
+   {name = "Marco Roda", email = "marco.roda@liverpool.ac.uk"},
+]
+dependencies = [
+  "click",
+  "grpcio",
+  "grpcio-status",
+  "grpcio-tools",
+  "googleapis-common-protos",
+  "rich",
+]
+description = "Schema definitions and compilation script for runconf-schema"
+name = "runconf-schema"
+readme = "docs/README.md"
+requires-python = ">=3.10"
+version = "1.2.1"
+
+[project.optional-dependencies]
+dev = ["ruff", "pre-commit", "pytest", "pytest-cov", "mypy-protobuf", "types-protobuf"]
+
+[project.urls]
+Documentation = "https://dune-daq-sw.readthedocs.io/en/latest/packages/daq-release/team_repos/?h=runconf-schema"
+Repository = "https://github.com/DUNE-DAQ/runconf-schema"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-v --tb=short --cov=runconf-schema --cov=src/runconf-schema tests/"
+
+[tool.coverage.run]
+omit = ["tests/*", "scripts/*"]
+source = ["runconf-schema"]
+
+[tool.ruff]
+exclude = [
+  "src/runconf-schema.egg-info",
+  "src/runconf-schema/*_pb2.py*",
+  "src/runconf-schema/*_pb2_grpc.py*",
+]
+
+[tool.ruff.lint]
+pydocstyle.convention = "google"
+select = [
+  "D", # pydocstyle
+  "E", # pycodestyle
+  "F", # Pyflakes
+  "I", # isort
+  "UP", # pyupgrade
+  "RUF", # ruff-specific rules
+  "R", # refactoring suggestions
+]
