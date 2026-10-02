@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package dunedaq.runconfschema;
+
+enum OutcomeFlag {
+  SUCCESS = 0;
+  FAIL = 1;
+  UNKNOWN = 2;
+}
+
+message Error {
+    string message = 1;
+}
+
+message Response {
+    OutcomeFlag outcome = 1;
+    optional string message = 2;   # any additional message to be displayed to the user
+    optional Error error = 3;
+}
