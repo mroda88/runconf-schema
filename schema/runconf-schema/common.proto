@@ -8,12 +8,12 @@ enum OutcomeFlag {
   UNKNOWN = 2;
 }
 
-message Error {
+message Error {   // Ideally this could evolve into error codes etc, that's why it's ennumerated here, but for now we just have a message;
     string message = 1;
 }
 
 message Response {
     OutcomeFlag outcome = 1;
-    optional string message = 2;   # any additional message to be displayed to the user
+    optional string message = 2;   // any additional message to be displayed to the user
     optional Error error = 3;
 }

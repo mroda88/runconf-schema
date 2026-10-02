@@ -6,12 +6,12 @@ import "runconf-schema/common.proto";
 
 message BootRequest {
   string apparatus = 1;
-  string manager_type = 2;   ## check with James if this should be an enum;
+  string manager_type = 2;   // check with James if this should be an enum;
   string config_file_name = 3;
   string session_id = 4;
   string output_directory = 5;
-  optional string base_url = 6;   # how can we generalise the URLs? 
+  optional string base_url = 6;   // how can we generalise the URLs? 
   optional string ops_url = 7;
-  ### do we need a log level?  
+  // do we need a log level?  
 }
 

@@ -5,33 +5,35 @@ package dunedaq.runconfschema;
 import "runconf-schema/common.proto";
 
 message DropDownContent {
-  repeated string values = 1;   # the list of values to be put in the dropdown menu;
+  repeated string values = 1;   // the list of values to be put in the dropdown menu;
 }
 
-## Do we need an initial initialisation request?
+// Do we need an initial initialisation request?
 message Initialisation {
-    string runconf_version = 1;   # the version of the backend;
-    string daq_version = 2;   # the version of the DAQ software;
-    string apparatus = 3;   # the name of the apparatus;
-    map<string,string> structure =1 # the key the identifier of the dropdown menu, the value is an initial description or string to be put there;
-  map<string, DropDownContent> dropdowns = 2;   # the key is the identifier of the dropdown menu,;
-   optional string additional_info = 3;   # any additional message to be displayed to the user, e.g. a warning message;
-   # the size of dropdown menu is not the size of the structue;
+    string runconf_version = 1;   // the version of the backend;
+    string daq_version = 2;   // the version of the DAQ software;
+    string apparatus = 3;   // the name of the apparatus;
+    map<string,string> structure = 4; // the key the identifier of the dropdown menu, the value is an initial description or string to be put there;
+   map<string, DropDownContent> dropdowns = 5;   // the key is the identifier of the dropdown menu,;
+   // the size of dropdown menu is not the size of the structue;
+
+   optional string additional_info = 6;   // any additional message to be displayed at the top of the page
 }
 
 message DropDownSelection {
-  string key = 1;   # the identifier of the dropdown menu;
-  string value = 2;   # the selected value from the dropdown menu;
+  string key = 1;   // the identifier of the dropdown menu;
+  string value = 2;  // the selected value from the dropdown menu;
 }
 
 message DropDownUpdate {
     Response response = 1;
     map<string, DropDownContent> update = 2;
-    repeated string resets = 3;   # list of identifiers of the dropdown menu to be reset to the initial values;
+    repeated string resets = 3;   // list of identifiers of the dropdown menu to be reset to the initial values;  initial values are in the Intialisation message
+
 }
 
 message Open {
-    map<string,string> selection =1; # it might be a bit redundant;
+    map<string,string> selection =1; // it might be a bit redundant;
 }
     
 message Outcome {
